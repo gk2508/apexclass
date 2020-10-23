@@ -1,0 +1,21 @@
+globaL class ziguar implements
+    Database.Batchable<sObject>{
+    global Database.QueryLocator start(Database.BatchableContext bc) {
+        return Database.getQueryLocator(
+            'SELECT * FROM Account Where BillingCountry = \'US\' AND'+
+            '(BillingState =\'New York\' or BillingState = \'Chicago\')');
+    }
+    global void execute(Database.BatchableContext bc, List<Lead> scope){
+        List<Lead> leads = new List<Lead>();
+        
+            for (Lead lead : scope) {
+                Lead.LeadSource ='Dreamforce';
+                leads.add(lead);              
+            }
+        update leads;
+    }    
+    global void finish(Database.BatchableContext bc){
+        
+    }    
+
+}
